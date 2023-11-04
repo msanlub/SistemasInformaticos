@@ -1,6 +1,6 @@
-'''cifrado ROT-13: rota los caracteres ingresados 13 veces en el abecedario'''
+'''cifrado ROT-13: rota los caracteres ingresados 13 veces en el ab. ecedario'''
 ABC='abcdefghijklmnopqrstuvwxyzñABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
-CBA='nopqrstuvwxyzabcdefghijklmñNOPQRSTUVWXYZABCDEFGHIJKLMÑ'
+CBA='nopqrstuvwxyzabcdefghijklñmNOPQRSTUVWXYZABCDEFGHIJKLÑM'
 
 def rot13(frase:str)->str:
     mapeo = dict(zip(ABC + CBA, CBA + ABC)) #dict: diccionario // zip: para iterar dos listas en paralelo 
@@ -14,5 +14,5 @@ if __name__=="__main__":
     cifrado = rot13(frase)
 
     #salida
-    print(cifrado)
+    print("Tu frase cifrada es: " + cifrado)
 
