@@ -12,13 +12,18 @@ def descifrarRot13(descifrar:str)->str:
 
 if __name__=="__main__":
     #entrada
-    cifrar = input("Escribe la frase que quiere cifrar: ")
-    descifrar = input("Escribe la frase que quieres descifrar: ")
+    menu = input("¿Qué quiere,cifrar o descifrar una frase? -> ").lower()
 
-    #proceso
-    cifrado = rot13(cifrar)
-    descifrado = descifrarRot13(descifrar)
-
-    #salida
-    print("Tu frase cifrada es: " + cifrado)
-    print("Tu frase descifrada es :" + descifrado)
+    #proceso y salida
+    if menu == "cifrar":
+        cifrar = input("Escribe la frase que quiere cifrar: \n")
+        cifrado = rot13(cifrar)
+        print("Tu frase cifrada es: " + cifrado)
+    elif menu == "descifrar":
+        descifrar = input("Escribe la frase que quieres descifrar: \n")
+        descifrado = descifrarRot13(descifrar)
+        print("Tu frase descifrada es :" + descifrado)
+    else:
+        print("Esa opción no es correcta.")
+    
+    
