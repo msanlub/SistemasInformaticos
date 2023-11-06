@@ -17,9 +17,7 @@ def soloBinario() ->list:
 if __name__=="__main__":
     print(leerEntrada())
 
-'''
     if len(B) != 8:
         return []
     else:
         print(B)
-        '''
