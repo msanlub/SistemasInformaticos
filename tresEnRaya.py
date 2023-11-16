@@ -1,27 +1,106 @@
-# Creamos la tabla con listas vacías al comienzo
-usuarios = [[], []]
+import random
 
-# Definimos un tamaño para las listas de la tabla
-# Lo puedes cambiar si quieres
-tamaño = 3
+'''tres en raya'''
+tablero = [[" "," "," "], 
+           [" "," "," "], 
+           [" "," "," "]]
 
-# Leemos los datos y los agregamos a la tabla
-for i in range(tamaño):
-    print("Ingrese los datos de la persona", i + 1)
-    nombre = input("Nombre: ")
-    identificación = input("Identificación: ")
+USUARIO = "x"
+ORDENADOR = "o"
+FIN = "fin"
 
-    # La primera lista es para los nombres
-    usuarios[0].append(nombre)
+def imprimirTablero(tablero):
+    for filas in tablero:
+        print(f"{filas} \n")
 
-    # La segunda lista es para las identificaciones
-    usuarios[1].append(identificación)
+def comprobarYAñadirPersona(coordenada,tablero):
+    coordenada = coordenada.split(",")
+    posicionUno= int(coordenada[0])
+    posicionDos= int(coordenada[1])
+    if tablero [posicionUno][posicionDos] == " ":
+        tablero[posicionUno][posicionDos] = USUARIO
+    elif tablero [posicionUno][posicionDos] == USUARIO or tablero [posicionUno][posicionDos] == ORDENADOR:
+        main()
+    return tablero
+
+def movimientoOrdenador(tablero):
+    try:
+        posicionUnoOrdenador = random.randint(0,len(tablero)-1) 
+        posicionDosOrdenador = random.randint(0,len(tablero)-1)
+        if tablero [posicionUnoOrdenador][posicionDosOrdenador] == " ":
+            tablero[posicionUnoOrdenador][posicionDosOrdenador] = ORDENADOR
+        elif tablero [posicionUnoOrdenador][posicionDosOrdenador] == USUARIO or tablero [posicionUnoOrdenador][posicionDosOrdenador] == ORDENADOR:
+            movimientoOrdenador(tablero)
+        return tablero
+    except : print("")
+
+def comprobarTresEnRayaPorFilas(tablero):
+    if tablero[0][0] == USUARIO and tablero [0][1]== USUARIO and tablero[0][2] == USUARIO:
+        return "Has ganado"
+    if tablero[1][0] == USUARIO and tablero [1][1]== USUARIO and tablero[1][2] == USUARIO:
+        return "Has ganado"
+    if tablero[2][0] == USUARIO and tablero [2][1]== USUARIO and tablero[2][2] == USUARIO:
+        return "Has ganado"
+    if tablero[0][0] == USUARIO and tablero [1][0]== USUARIO and tablero[2][0] == USUARIO:
+        return "Has ganado"
+    if tablero[1][1] == USUARIO and tablero [0][1]== USUARIO and tablero[2][1] == USUARIO:
+        return "Has ganado"
+    if tablero[0][2] == USUARIO and tablero [1][2]== USUARIO and tablero[2][2] == USUARIO:
+        return "Has ganado"
+    if tablero[0][0] == ORDENADOR and tablero [0][1]== ORDENADOR and tablero[0][2] == ORDENADOR:
+        return "Has perdido"
+    if tablero[1][0] == ORDENADOR and tablero [1][1]== ORDENADOR and tablero[1][2] == ORDENADOR:
+        return "Has perdido"
+    if tablero[2][0] == ORDENADOR and tablero [2][1]== ORDENADOR and tablero[2][2] == ORDENADOR:
+        return "Has perdido"
+    if tablero[0][0] == ORDENADOR and tablero [1][0]== ORDENADOR and tablero[2][0] == ORDENADOR:
+        return "Has perdido"
+    if tablero[1][1] == ORDENADOR and tablero [0][1]== ORDENADOR and tablero[2][1] == ORDENADOR:
+        return "Has perdido"
+    if tablero[0][2] == ORDENADOR and tablero [1][2]== ORDENADOR and tablero[2][2] == ORDENADOR:
+        return "Has perdido"
+    
+
+
+def comprobarTresEnRayaDiagonales(tablero):
+    if tablero[0][0] == USUARIO and tablero [1][1] == USUARIO and tablero[2][2] == USUARIO:
+        return "Has ganado"
+    elif tablero[2][0] == USUARIO and tablero[1][1] == USUARIO and tablero[0][2] == USUARIO:
+        return "Has ganado"
+    elif tablero[0][0] == ORDENADOR and tablero [1][1] == ORDENADOR and tablero[2][2] == ORDENADOR:
+        return "Has perdido"
+    elif tablero[2][0] == ORDENADOR and tablero[1][1] == ORDENADOR and tablero[0][2] == ORDENADOR:
+        return "Has perdido"
+
+
+def finPartida(entrada,tablero):
+    if comprobarTresEnRayaPorFilas(tablero) or comprobarTresEnRayaDiagonales(tablero) == "Has perdido":
+        entrada = FIN
+        return entrada
+    if comprobarTresEnRayaPorFilas(tablero) or comprobarTresEnRayaDiagonales(tablero) == "Has ganado":
+        entrada = FIN
+        return entrada
+
+def main():
+    '''programa principal'''
+    entrada = ""
+
+    while entrada != FIN:
+        coordenada = input("Indica tu posición (coordenada(x,y)): ")
+        comprobarYAñadirPersona(coordenada,tablero)
+        imprimirTablero(tablero)
+        comprobarTresEnRayaPorFilas(tablero)  
+        comprobarTresEnRayaDiagonales(tablero) 
+        print("turno del PC.")
+        movimientoOrdenador(tablero)
+        imprimirTablero(tablero)
+        comprobarTresEnRayaPorFilas(tablero) 
+        comprobarTresEnRayaDiagonales(tablero)
+        entrada = finPartida(entrada,tablero)
+    imprimirTablero(tablero)
+    print(comprobarTresEnRayaDiagonales(tablero))
+    print(comprobarTresEnRayaPorFilas(tablero))
+    print("Partida finalizada")
 
 if __name__=="__main__":
-    # Ahora mostremos los valores en la tabla
-    for i in range(tamaño):
-        print(usuarios)
-        print("Mostrando los datos de la persona", i + 1)
-
-        print("Nombre:", usuarios[0][i])
-        print("Identificación:", usuarios[1][i])
+    main()

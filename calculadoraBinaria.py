@@ -1,5 +1,3 @@
-'''def id(x):
-    return x'''
 
 def leerEntradaUno() ->list:
     '''función que define la petición de entrada al usuario'''
