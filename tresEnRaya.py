@@ -14,14 +14,18 @@ def imprimirTablero(tablero):
         print(f"{filas} \n")
 
 def comprobarYAñadirPersona(coordenada,tablero):
-    coordenada = coordenada.split(",")
-    posicionUno= int(coordenada[0])
-    posicionDos= int(coordenada[1])
-    if tablero [posicionUno][posicionDos] == " ":
-        tablero[posicionUno][posicionDos] = USUARIO
-    elif tablero [posicionUno][posicionDos] == USUARIO or tablero [posicionUno][posicionDos] == ORDENADOR:
-        main()
-    return tablero
+    try:
+        coordenada = coordenada.split(",")
+        posicionUno= int(coordenada[0])
+        posicionDos= int(coordenada[1])
+        if tablero [posicionUno][posicionDos] == " ":
+            tablero[posicionUno][posicionDos] = USUARIO
+        elif tablero [posicionUno][posicionDos] == USUARIO or tablero [posicionUno][posicionDos] == ORDENADOR:
+            main()
+        return tablero
+    except  IndexError:
+        print("Está fuera de rango. vuelve a intentarlo.")
+        
 
 def movimientoOrdenador(tablero):
     try:
