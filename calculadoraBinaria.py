@@ -1,3 +1,5 @@
+# -*- codigo: utf-16 -*-
+
 
 def leerEntradaUno() ->list:
     '''función que define la petición de entrada al usuario'''
@@ -27,7 +29,8 @@ def suma(byteUno,byteDos,acarreo):
             resultado.append(0) and acarreo.append(1)
         else:
             return "Cago en to"
-    return resultado.reverse()
+        
+    return resultado
 
 if __name__=="__main__":
 

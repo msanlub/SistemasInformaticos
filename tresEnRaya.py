@@ -1,3 +1,5 @@
+# -*- codigo: utf-16 -*-
+
 import random
 
 '''tres en raya'''
