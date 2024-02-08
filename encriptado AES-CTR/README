@@ -1,0 +1,76 @@
+## ENCRIPTADO AES
+---
+
+#### AES (Advanced Encryption Standard) 
+Es un algoritmo de cifrado de bloques que se utiliza comúnmente en diferentes modos de operación para proporcionar diferentes características de seguridad y funcionalidades. Aquí hay algunos de los modos de operación más comunes para AES:
+
+   - **ECB (Electronic Codebook):**
+    Este es el modo más simple de AES. En este modo, cada bloque de texto plano se cifra de forma independiente utilizando la misma clave, lo que puede resultar en la misma secuencia de texto cifrado para bloques de texto plano idénticos. Debido a esta falta de aleatoriedad, ECB no es adecuado para cifrar datos sensibles y se recomienda evitarlo.
+
+- **CBC (Cipher Block Chaining):** 
+Como se discutió anteriormente, en este modo cada bloque de texto plano se combina con el bloque de texto cifrado anterior antes de ser cifrado, lo que introduce aleatoriedad en el proceso de cifrado y hace que bloques de texto plano idénticos produzcan bloques de texto cifrado diferentes.
+- **CFB (Cipher Feedback):**
+En este modo, el algoritmo de cifrado se utiliza como un generador de secuencia pseudoaleatoria para cifrar bloques individuales de texto plano, lo que permite cifrar datos en unidades de bits. Este modo es útil cuando se necesita cifrar datos en un nivel de bit y también proporciona cierta tolerancia a errores.
+
+-**OFB (Output Feedback):** Similar a CFB, en este modo el algoritmo de cifrado se utiliza como un generador de secuencia pseudoaleatoria. Sin embargo, en OFB, el texto cifrado generado no depende del texto plano de entrada, lo que lo hace útil para cifrar datos en un nivel de bit y también proporciona cierta tolerancia a errores.
+
+- **CTR (Counter):**
+En este modo, se utiliza un contador como input para el algoritmo de cifrado, y el resultado de la operación de cifrado se combina con el texto plano original utilizando una operación XOR. CTR es altamente paralelizable y eficiente, y es comúnmente utilizado en aplicaciones que requieren cifrado de alto rendimiento.
+
+Estos son solo algunos de los modos de operación comunes para AES, pero existen otros modos como CCM (Counter with CBC-MAC), GCM (Galois/Counter Mode), entre otros, que ofrecen características adicionales como autenticación de mensaje y protección de integridad. La elección del modo de operación adecuado depende de los requisitos específicos de seguridad y funcionalidad de la aplicación.
+
+---
+
+En este caso vamos a usar el modo CTR, aquí está el proceso de encriptación paso a paso:
+El modo CTR (Counter) es un modo de operación para cifrado de bloques que convierte un cifrador de bloques en un cifrador de flujo, permitiendo cifrar y descifrar datos en unidades de bits o bytes en lugar de bloques completos. Funciona de la siguiente manera:
+
+1. **Generación del vector de inicialización (IV):**
+Se elige un IV aleatorio del mismo tamaño que el tamaño del bloque del cifrador. Por ejemplo, para AES con una clave de 128 bits, el IV tiene una longitud de 128 bits (16 bytes). El IV se elige aleatoriamente y no necesita ser secreto, pero debe ser único para cada mensaje cifrado con la misma clave.
+
+2. **Generación del contador:**
+Se inicia un contador con un valor inicial. Este contador es tratado como una secuencia de números que se incrementan en cada bloque de datos que se cifra o descifra.
+
+3. **Generación de la secuencia de cifrado:**
+El contador, combinado con el IV, se usa como entrada al cifrador de bloques para generar una secuencia de bits o bytes cifrados, que se utiliza como una "máscara de cifrado". Esta secuencia se aplica al texto plano utilizando una operación de XOR bit a bit.
+
+4. **Cifrado y descifrado:**
+Durante el cifrado, el texto plano se XOR con la máscara de cifrado generada en el paso anterior para producir el texto cifrado. Durante el descifrado, el texto cifrado se XOR con la misma máscara de cifrado para recuperar el texto plano original.
+
+---
+
+El modo CTR es altamente paralelizable y eficiente, ya que permite cifrar y descifrar datos en unidades de bytes o bits sin necesidad de rellenar o dividir los datos en bloques completos. Además, el mismo IV y la misma clave pueden usarse para cifrar y descifrar múltiples mensajes, siempre que el contador sea único para cada mensaje. Esto lo hace adecuado para aplicaciones que requieren cifrado y descifrado de alto rendimiento y flexibilidad.
+#### VENTAJAS
+
+1. Independencia de bloques: Cada bloque de datos se cifra utilizando una clave única derivada del contador y el vector de inicialización. Esto significa que no hay dependencias entre los bloques de datos, lo que permite un cifrado paralelo y eficiente.
+
+2. No se requiere rellenado de datos: Dado que cada bloque de datos se cifra de manera independiente, no es necesario agregar ningún relleno especial para ajustar el tamaño de los datos. Esto simplifica el proceso de cifrado y desencriptado.
+
+3. Paralelismo: Dado que los bloques de datos se cifran de manera independiente, el proceso de cifrado es altamente paralelizable. Esto puede mejorar significativamente el rendimiento en sistemas con capacidad de procesamiento paralelo.
+
+---
+
+Vamos a explicar el contenido del programa de encriptación, usando AES en modo CTR:
+- Generación de la clave:
+La función generar_clave()genera una clave aleatoria de 128 bits (16 bytes) utilizando la función get_random_bytes() de la biblioteca Crypto.Random. Esta clave se utiliza para cifrar y descifrar el mensaje.
+
+- Encriptación del mensaje:
+Se genera un vector de inicialización (IV) aleatorio de 128 bits (16 bytes) utilizando la misma función get_random_bytes().
+- Se crea un objeto Cipher utilizando AES en modo CTR (AES.MODE_CTR) y se pasa la clave y el IV generado como argumentos. Este objeto se utiliza para realizar la encriptación.
+- El texto plano se encripta utilizando el método ` encrypt()` del objeto Cipher. El texto cifrado resultante se obtiene en forma de bytes.
+- El IV se concatena con el texto cifrado y el resultado se codifica en base64 utilizando `base64.b64encode()`. Esto se hace para que el IV pueda ser recuperado durante la desencriptación.
+- Desencriptación del mensaje:
+    - Durante la desencriptación, se decodifica el texto cifrado de base64 utilizando `base64.b64decode()` para obtener el IV y el texto cifrado.
+    - Se crea un objeto Cipher utilizando AES en modo CTR y se pasa la clave y el IV obtenido como argumentos.
+    -El texto cifrado se desencripta utilizando el método `decrypt()` del objeto Cipher. El resultado es el texto plano original.
+En resumen, el programa utiliza AES en modo CTR para encriptar el mensaje. El IV (vector de inicialización) es necesario para este modo de operación para asegurar que bloques de texto plano idénticos resulten en texto cifrado diferente. El texto cifrado se codifica en base64 para que pueda ser almacenado o transmitido de manera segura. Durante la desencriptación, el IV se utiliza para recuperar el estado interno del contador y garantizar la correcta desencriptación del mensaje.
+
+---
+
+Ejecutar con python3.
+
+---
+
+Es necesario descargar el siguiente paquete:
+    pip install pycryptodome
+
+
