@@ -1,18 +1,18 @@
 import time
 import itertools
 
-# Lista predefinida de letras minúsculas
-letras_minusculas = 'abcdefghijklmnopqrstuvwxyz'
+# Lista predefinida de lenguaje
+l1 = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ123456789*+-_/?¿'
+
 
 def buscar_palabra(palabra):
-    start_time = time.time()  # Marca el inicio de la búsqueda
-    
     longitud_palabra = len(palabra)
     
-    # Genera todas las combinaciones posibles de letras minúsculas de la longitud de la palabra
-    combinaciones = itertools.product(letras_minusculas, repeat=longitud_palabra)
+    # Genera todas las combinaciones posibles de lenguaje de la longitud de la palabra
+    combinaciones = itertools.product(l1, repeat=longitud_palabra)
     
     # Itera sobre cada combinación y busca la palabra
+    start_time = time.time()  # Marca el inicio de la búsqueda
     for combinacion in combinaciones:
         palabra_generada = ''.join(combinacion)
         if palabra_generada == palabra:
